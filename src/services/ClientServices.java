@@ -128,6 +128,10 @@ public class ClientServices {
         if(soldeInitial < 0){
             throw new IllegalArgumentException("Solde initial invalide");
         }
+
+        if(typeCompte == null){
+            throw new IllegalArgumentException("Type de compte invalide");
+        }
         String idCompte = "CPT" + ((int)(Math.random() * 90000) + 10000);
         Compte compte = new Compte(idCompte, typeCompte, soldeInitial, client);
         client.ajouterCompte(compte);
@@ -142,5 +146,24 @@ public class ClientServices {
             throw new IllegalArgumentException("Email ou mot de passe incorrect");
         }
     }
+
+    public Compte trouverCompteById(Client client ,String id){
+        return client.getComptes().stream()
+                .filter(compte -> compte.getIdCompte().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("Compte introuvable avec l'ID: " + id) );
+
+    }
+
+    public Compte trouverCompteParIdGlobal(String id){
+        for(Client client : clients){
+          Compte compte = client.trouverCompteParId(id);
+            if(compte != null){
+                return compte;
+            }
+        }
+        return null;
+    }
+
 
 }
