@@ -3,6 +3,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class Compte {
@@ -94,5 +95,11 @@ public class Compte {
                 throw new IllegalArgumentException("Type de transaction inconnu");
         }
         return transaction;
+    }
+
+    public List<Transaction> filtrerTransactionsParType(TypeTransaction type) {
+        return this.transactions.stream()
+                .filter(t -> t.getTypeTransaction() == type)
+                .collect(Collectors.toList());
     }
 }
