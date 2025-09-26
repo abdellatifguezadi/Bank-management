@@ -1,5 +1,4 @@
 
-=======
 # GestionBank
 
 ## Description
