@@ -4,17 +4,18 @@ import model.Client;
 import model.Compte;
 import model.TypeCompte;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 public class ClientServices {
 
     private List<Client> clients;
 
-    public ClientServices(List<Client> clients) {
-        this.clients = clients;
+    public ClientServices() {
+        this.clients = new ArrayList<>();
     }
-
     public boolean InValidEmail(String email) {
         String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
         return !email.matches(emailRegex);
@@ -35,10 +36,7 @@ public class ClientServices {
     }
 
     public String generateIdClient() {
-        String id = "CLT";
-        int randomNum = (int) (Math.random() * 9000) + 1000; // Génère un nombre aléatoire entre 1000 et 9999
-        id += randomNum;
-        return id;
+        return "CLT" + UUID.randomUUID().toString().substring(0, 8);
     }
 
     public Client findClientByEmail(String email) {
@@ -52,12 +50,10 @@ public class ClientServices {
 
 
     public Client findClientById(String idClient) {
-        for (Client client : clients) {
-            if (client.getIdClient().equals(idClient)) {
-                return client;
-            }
-        }
-        return null;
+        return clients.stream()
+                .filter(c -> c.getIdClient().equals(idClient))
+                .findFirst()
+                .orElse(null);
     }
 
     public Client creerClient(String nom, String prenom, String email, String motDePasse) {
@@ -89,8 +85,8 @@ public class ClientServices {
         return client;
     }
 
-    public Client mmodifierClient(String idClient, String nom, String prenom, String email) {
-        Client client = findClientById(idClient);
+    public Client modifierClient(Client client, String nom, String prenom, String email, String motDePasse) {
+
         if(client == null){
             throw new NoSuchElementException("Client introuvable");
         }
@@ -104,12 +100,16 @@ public class ClientServices {
             throw new IllegalArgumentException("Email invalide");
         }
         Client clientWithEmail = findClientByEmail(email);
-        if(clientWithEmail != null && !clientWithEmail.getIdClient().equals(idClient)) {
+        if(clientWithEmail != null && !clientWithEmail.getEmail().equals(email)) {
             throw new IllegalArgumentException("Un compte avec cet email existe déjà");
+        }
+        if(InValideMotDePasse(motDePasse)){
+            throw new IllegalArgumentException("Mot de passe invalide (au moins 8 caractères)");
         }
         client.setNom(nom);
         client.setPrenom(prenom);
         client.setEmail(email);
+        client.setMotDePasse(motDePasse);
         return client;
     }
 
@@ -164,6 +164,5 @@ public class ClientServices {
         }
         return null;
     }
-
 
 }

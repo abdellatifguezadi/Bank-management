@@ -5,6 +5,7 @@ import model.Gestionnaire;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class GestionnaireServices {
     private List<Gestionnaire> gestionnaires;
@@ -85,11 +86,15 @@ public class GestionnaireServices {
     }
 
 
-    public String generateIdGestionnaire(){
-        String id = "GES";
-        int randomNum = (int) (Math.random() * 9000) + 1000; // Génère un nombre aléatoire entre 1000 et 9999
-        id += randomNum;
-        return id;
+    public String generateIdGestionnaire() {
+        return "GES" + UUID.randomUUID().toString().substring(0, 8);
+    }
+
+    public Gestionnaire convertirClientEnGestionnaire(Client client, String departement) {
+        String idGestionnaire = "GES" + UUID.randomUUID().toString().substring(0, 8);
+        Gestionnaire gestionnaire = new Gestionnaire(idGestionnaire, departement, client.getNom(), client.getPrenom(), client.getEmail(), client.getMotDePasse());
+        gestionnaires.add(gestionnaire);
+        return gestionnaire;
     }
 
 }
