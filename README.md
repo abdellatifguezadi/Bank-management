@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-
-
 
 =======
 # GestionBank
@@ -99,4 +96,3 @@ Le projet suit le pattern **MVC (Model-View-Controller)** :
 **Abdellatif Guezadi**  
 Date de création : 26 septembre 2025
 
->>>>>>> 86c4dda4c2b9577814d6ae200a5a5f08695ba6b6
