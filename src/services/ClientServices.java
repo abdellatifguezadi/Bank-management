@@ -39,9 +39,14 @@ public class ClientServices {
         return "CLT" + UUID.randomUUID().toString().substring(0, 8);
     }
 
+    public List<Client> getAllClients() {
+        return new ArrayList<>(clients);
+    }
+
     public Client findClientByEmail(String email) {
+        String emailRecherche = email.trim().toLowerCase();
         for (Client client : clients) {
-            if (client.getEmail().equals(email)) {
+            if (client.getEmail().trim().toLowerCase().equals(emailRecherche)) {
                 return client;
             }
         }
@@ -164,5 +169,24 @@ public class ClientServices {
         }
         return null;
     }
+
+    public Client trouverClientParEmail(String email) {
+        String emailRecherche = email.trim().toLowerCase();
+        return clients.stream()
+                .filter(c -> c.getEmail().trim().toLowerCase().equals(emailRecherche))
+                .findFirst()
+                .orElse(null);
+    }
+
+
+    public boolean supprimerCompte(Client client, String idCompte) {
+        Compte compte = client.trouverCompteParId(idCompte);
+        if (compte == null) {
+            throw new NoSuchElementException("Compte introuvable avec l'ID: " + idCompte);
+        }
+        return client.supprimerCompte(compte);
+    }
+
+
 
 }

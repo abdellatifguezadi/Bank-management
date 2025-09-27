@@ -1,9 +1,14 @@
 package controller;
 
 import model.Client;
+import model.Compte;
 import model.Gestionnaire;
+import model.TypeCompte;
 import services.ClientServices;
 import services.GestionnaireServices;
+
+import java.util.List;
+import java.util.NoSuchElementException;
 
 public class GestionnaireController {
 
@@ -43,6 +48,26 @@ public class GestionnaireController {
 
     public Gestionnaire getConvertirClientEnGestionnaire(Client client, String departement) {
         return gestionnaireService.convertirClientEnGestionnaire(client, departement);
+    }
+
+    public List<Client> getClientsGeres(Gestionnaire gestionnaire) {
+        return clientService.getAllClients();
+    }
+
+    public Compte creerCompte(String idClient, TypeCompte typeCompte, double soldeInitial) {
+        Client client = clientService.findClientById(idClient);
+        if (client == null) {
+            throw new NoSuchElementException("Client introuvable");
+        }
+        return clientService.creerCompte(client, typeCompte, soldeInitial);
+    }
+
+    public boolean supprimerCompte(Gestionnaire gestionnaire, String idClient, String idCompte) {
+        Client client = clientService.findClientById(idClient);
+        if (client == null) {
+            throw new NoSuchElementException("Client introuvable");
+        }
+        return clientService.supprimerCompte(client, idCompte);
     }
 
 

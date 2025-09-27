@@ -16,36 +16,35 @@ public class ClientView {
     private ClientController clientController;
     private Client clientConnecte;
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-    private boolean running = true;
 
     public ClientView(ConsoleView consoleView, ClientController clientController) {
         this.consoleView = consoleView;
         this.clientController = clientController;
     }
 
-    private boolean authentifierClient() {
-        consoleView.afficherMessage("\n=== AUTHENTIFICATION CLIENT ===");
-        String email = consoleView.demanderSaisie("Email:");
-        String motDePasse = consoleView.demanderSaisie("Mot de passe:");
-
-        Client client = clientController.authentifierClient(email, motDePasse);
-        if (client != null) {
-            clientConnecte = client;
-            consoleView.afficherSucces("Connexion réussie. Bienvenue " + client.getPrenom() + " " + client.getNom() + "!");
-            return true;
-        } else {
-            consoleView.afficherErreur("Échec de l'authentification. Email ou mot de passe incorrect.");
-            return false;
-        }
-    }
-
     public void afficherMenuPrincipal() {
-        if (clientConnecte == null) {
-            if (!authentifierClient()) {
+        while (clientConnecte == null) {
+            consoleView.afficherMessage("\n=== AUTHENTIFICATION CLIENT ===");
+            consoleView.afficherMessage("(Tapez '0' comme email ou mot de passe pour quitter)");
+            String email = consoleView.demanderSaisie("Email:");
+            String motDePasse = consoleView.demanderSaisie("Mot de passe:");
+            if ("0".equalsIgnoreCase(email) || "0".equalsIgnoreCase(motDePasse)) {
+                consoleView.afficherMessage("Merci d'avoir utilisé notre système de gestion bancaire.\nÀ bientôt!");
                 return;
             }
+            try {
+                Client client = clientController.authentifierClient(email, motDePasse);
+                if (client != null) {
+                    clientConnecte = client;
+                    consoleView.afficherSucces("Connexion réussie. Bienvenue " + client.getPrenom() + " " + client.getNom() + "!");
+                } else {
+                    consoleView.afficherErreur("Échec de l'authentification. Email ou mot de passe incorrect.");
+                }
+            } catch (IllegalArgumentException e) {
+                consoleView.afficherErreur("Échec de l'authentification. " + e.getMessage());
+            }
         }
-        running = true;
+        boolean running = true;
         while (running) {
             consoleView.displayMenu("MENU CLIENT - " + clientConnecte.getPrenom() + " " + clientConnecte.getNom(),
                     "Consulter mes comptes",

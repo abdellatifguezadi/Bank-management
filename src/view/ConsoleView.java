@@ -100,4 +100,17 @@ public class ConsoleView {
         return true;
     }
 
+    public boolean demanderConfirmation(String prompt) {
+        while (true) {
+            String reponse = demanderSaisie(prompt + " (O/N)").toUpperCase();
+            if (reponse.equals("O")) {
+                return true;
+            } else if (reponse.equals("N")) {
+                return false;
+            } else {
+                afficherErreur("Veuillez répondre par O (Oui) ou N (Non).");
+            }
+        }
+    }
+
 }

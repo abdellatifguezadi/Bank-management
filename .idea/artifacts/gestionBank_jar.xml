@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="gestionBank:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/gestionBank_jar</output-path>
+    <root id="archive" name="gestionBank.jar">
+      <element id="module-output" name="gestionBank" />
+    </root>
+  </artifact>
+</component>
