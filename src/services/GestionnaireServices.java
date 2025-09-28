@@ -66,9 +66,7 @@ public class GestionnaireServices {
         return !motDePasse.matches(motDePasseRegex);
     }
 
-    public void affecterClientAGestionnaire(Gestionnaire gestionnaire, Client client){
-        gestionnaire.ajouterClient(client);
-    }
+
 
     public Gestionnaire trouveGestionnaireParEmail(String email){
         return gestionnaires.stream()

@@ -152,13 +152,6 @@ public class ClientServices {
         }
     }
 
-    public Compte trouverCompteById(Client client ,String id){
-        return client.getComptes().stream()
-                .filter(compte -> compte.getIdCompte().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("Compte introuvable avec l'ID: " + id) );
-
-    }
 
     public Compte trouverCompteParIdGlobal(String id){
         for(Client client : clients){

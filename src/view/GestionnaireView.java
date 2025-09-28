@@ -83,21 +83,7 @@ public class GestionnaireView {
         }
     }
 
-    private boolean authentifierGestionnaire() {
-        consoleView.afficherMessage("\n=== AUTHENTIFICATION GESTIONNAIRE ===");
-        String email = consoleView.demanderSaisie("Email:");
-        String motDePasse = consoleView.demanderSaisie("Mot de passe:");
 
-        Gestionnaire gestionnaire = gestionnaireController.authentifierGestionnaire(email, motDePasse);
-        if (gestionnaire != null) {
-            gestionnaireConnecte = gestionnaire;
-            consoleView.afficherSucces("Connexion réussie. Bienvenue " + gestionnaire.getPrenom() + " " + gestionnaire.getNom() + "!");
-            return true;
-        } else {
-            consoleView.afficherErreur("Échec de l'authentification. Email ou mot de passe incorrect.");
-            return false;
-        }
-    }
 
     private void afficherInformationsPersonnelles() {
         consoleView.afficherMessage("\n=== MES INFORMATIONS PERSONNELLES ===");

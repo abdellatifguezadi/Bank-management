@@ -49,11 +49,7 @@ public class Client extends Personne {
                 .orElse(null);
     }
 
-    public List<Compte> trouverCompteParType(TypeCompte typeCompte) {
-        return this.comptes.stream()
-                .filter(compte -> compte.getTypeCompte() == typeCompte)
-                .collect(Collectors.toList());
-    }
+
 
     public double calculerSoldeTotal() {
         return this.comptes.stream()

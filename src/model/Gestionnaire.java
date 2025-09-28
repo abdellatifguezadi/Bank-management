@@ -46,45 +46,6 @@ public class Gestionnaire extends Personne {
         return listeClients;
     }
 
-    public void setListeClients(List<Client> listeClients) {
-        this.listeClients = listeClients;
-    }
-
-    public void ajouterClient(Client client) {
-        this.listeClients.add(client);
-    }
-
-    public boolean supprimerClient(Client client) {
-        return this.listeClients.remove(client);
-    }
-
-    public Client trouverClientParId(String idClient) {
-        Optional<Client> client = this.listeClients.stream()
-                .filter(c -> c.getIdClient().equals(idClient))
-                .findFirst();
-        if (client.isPresent()) {
-            return client.get();
-        } else {
-            throw new NoSuchElementException("Client avec l'ID " + idClient + " non trouvé.");
-        }
-    }
-
-    public List<Client> rechercherClientsParNom(String nom) {
-        return this.listeClients.stream()
-                .filter(c -> c.getNom().equalsIgnoreCase(nom))
-                .collect(Collectors.toList());
-    }
-
-
-    public void creeCompte(Compte compte) {
-        this.listeComptes.add(compte);
-    }
-
-    public boolean supprimerCompte(Compte compte) {
-        return this.listeComptes.remove(compte);
-    }
-
-
 
     @Override
     public String toString() {
